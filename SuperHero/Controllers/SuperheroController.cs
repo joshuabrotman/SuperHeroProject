@@ -4,22 +4,33 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SuperHero.Data;
+using SuperHero.Models;
 
 namespace SuperHero.Controllers
 {
     public class SuperheroController : Controller
     {
+        private ApplicationDbContext context;
+        public SuperheroController(ApplicationDbContext _context)
+        {
+            context = _context;
+        }
         // GET: Superhero
         public ActionResult Index()
         {
-            
-            return View();
+            //access to db
+            //access to superhero table
+            //grab all of the superhero records in the superhero table
+            var Superheroes = context.Superhero.ToList();
+            return View(Superheroes);
         }
 
         // GET: Superhero/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int superheroID)
         {
-            return View();
+            var superhero = context.Superhero.Where(t => t.Id == superheroID).SingleOrDefault();
+            return View(superhero);
         }
 
         // GET: Superhero/Create
@@ -31,12 +42,13 @@ namespace SuperHero.Controllers
         // POST: Superhero/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Models.Superhero collection)
         {
             try
             {
                 // TODO: Add insert logic here
-
+                context.Superhero.Add(collection);
+                context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -54,7 +66,7 @@ namespace SuperHero.Controllers
         // POST: Superhero/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Models.Superhero collection)
         {
             try
             {
@@ -77,7 +89,7 @@ namespace SuperHero.Controllers
         // POST: Superhero/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Models.Superhero collection)
         {
             try
             {
