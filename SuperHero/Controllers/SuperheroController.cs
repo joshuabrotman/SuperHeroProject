@@ -61,7 +61,8 @@ namespace SuperHero.Controllers
         // GET: Superhero/Edit/5
         public ActionResult Edit(int id)
         {
-            var superhero = context.Superhero.Where(s => s.Id == id).FirstOrDefault();
+            var superhero = context.Superhero.Where(s => s.Id == id).SingleOrDefault();
+            context.Entry(superhero).State = EntityState.Modified;
             context.SaveChanges();
             return View(superhero);
         }
@@ -73,7 +74,7 @@ namespace SuperHero.Controllers
         {
             try
             {
-                var superhero = context.Superhero.Where(s => s.Id == id).FirstOrDefault();
+                
                 context.Entry(collection).State = EntityState.Modified;
                 context.SaveChanges();
 
