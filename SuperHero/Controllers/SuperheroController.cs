@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SuperHero.Data;
 using SuperHero.Models;
 
@@ -60,7 +61,9 @@ namespace SuperHero.Controllers
         // GET: Superhero/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var superhero = context.Superhero.Where(s => s.Id == id).FirstOrDefault();
+            context.SaveChanges();
+            return View(superhero);
         }
 
         // POST: Superhero/Edit/5
@@ -70,7 +73,9 @@ namespace SuperHero.Controllers
         {
             try
             {
-                // TODO: Add update logic here
+                var superhero = context.Superhero.Where(s => s.Id == id).FirstOrDefault();
+                context.Entry(collection).State = EntityState.Modified;
+                context.SaveChanges();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -93,8 +98,10 @@ namespace SuperHero.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
+                // TODO: Add insert logic here
+                var superhero = context.Superhero.Where(s => s.Id == id).SingleOrDefault();
+                context.Superhero.Remove(superhero);
+                context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
