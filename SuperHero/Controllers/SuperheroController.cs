@@ -12,6 +12,7 @@ namespace SuperHero.Controllers
         // GET: Superhero
         public ActionResult Index()
         {
+            
             return View();
         }
 

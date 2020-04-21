@@ -12,8 +12,8 @@ namespace SuperHero.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            DbSet<Superhero> Superheroes;
+            
         }
-        public DbSet<SuperHero.Models.Superhero> Superhero { get; set; }
+        public DbSet<Superhero> Superhero { get; set; }
     }
 }
